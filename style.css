@@ -1,0 +1,269 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;400;500;600;700&display=swap');
+
+:root {
+    --font-primary: "Inter", sans-serif;
+    --color-primary: #bf3939;
+    --color-primary-dark: #8a2828;
+    --color-secondary: #ffffff;
+    --color-black: #000000;
+    --color-bg-primary: #f8f9fa;
+    --color-bg-secondary: #ffffff;
+    --color-text-primary: #151e28;
+    --color-text-secondary: #6c757d;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-primary);
+    color: var(--color-text-primary)
+}
+
+a {
+    /*remove underlines for all anchors and colors, so that they inherit color from parent (body, which has color-text-primary)*/
+    text-decoration: none;
+    color: inherit;
+}
+
+/* HEADER */
+
+.header {
+    background-color: var(--color-bg-secondary);
+}
+
+.header__inner {
+    max-width: 1080px;
+    height: 80px;
+    margin: 0 auto;
+    /*
+        margin: 0 auto is to horizontally center inner inside header
+        it works only on elements whose dimensions are smaller than the 
+        entire browser width - had we not defined inner header's max-width,
+        it wouldn't have worked
+    */
+}
+
+.header__logo-link {
+    float: left;
+    margin-top: calc((80px - 24px) / 2);
+    /* 
+        with margin and calc - simplest way to center vertically without using flex etc.
+        80px - height of parent (header__inner)
+        24px - height of this element itself, logo-link
+        divide in half and we get the exact margin-top to center it vertically
+    */
+}
+
+/*path elements of svg element is the one that cointains fill color, so we need to access it*/
+.header__logo > path {
+    fill: var(--color-primary);
+}
+
+.header__nav {
+    float: right;
+
+}
+
+.header__link {
+    /*inside block elements, line-height will specify the height of line boxes and we set it to header's height, so that text is automatically centered vertically*/
+    line-height: 80px;
+    margin-right: 32px;
+    transition: color 0.3s ease-out;
+}
+
+.header__link:hover {
+    color: var(--color-primary)
+}
+
+/* BUTTON */
+
+/*needed to put comment above, because button, like header, is a Block*/
+
+.button {
+    padding: 12px 20px;
+    background-color: var(--color-primary);
+    border-radius: 4px;
+    color: var(--color-secondary);
+    transition: background-color 0.3s ease-out;
+}
+
+/* how to handle a block we want to modify in BEM? 
+Add modifier (button_secondary class) and add it
+to the existing button class to that HTML element -
+class="button button_secondary" */
+.button_secondary {
+    padding: 16px 20px;
+
+}
+
+.button:hover {
+    background-color: var(--color-primary-dark);
+}
+
+/* HERO */
+
+.hero {
+    height: 570px; /* for image */
+    position: relative;
+}
+
+.hero__figure {
+    width: 100%; /* for image */
+    height: 100%; /* for image */
+}
+
+.hero__image {
+    object-fit: cover; /* for image - fill the entire box while maintaining aspect ratio, if image not fitting, clip to fit */
+    height: 100%; /* for image */
+    width: 100%; /* for image */
+}
+
+.hero__overlay {
+    width: 100%;
+    height: 100%; /* this only works once positioning is handled, so that now this can take on dimension of the thing it is positioned into (image) */
+    background-color: rgba(0, 0, 0, 0.6);
+    position: absolute; /* this by itself not enough to position overlay over image since it does not know in regards to what is this absolute position, so .hero needs to have position: relative for this to work */
+    top: 0; /* and finally this, to place over image*/
+}
+
+.hero__content {
+    /* this is also referencing the hero which has position: relative, so add these to also place text onto image */
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    /* as soon as we put something as absolute, we
+    always need to spell out its top, width and height */
+}
+
+.hero__content-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+}
+
+.hero__text-card {
+    /*if not using flex, this is another way to center vertically*/
+    position: absolute;
+    top: 50%; /* take half of parent and begin this element there*/
+    transform: translateY(-50%); /* and halve that to move it further upward */
+}
+
+.hero__title {
+    color: var(--color-secondary);
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 130%;
+    letter-spacing: 1px;
+    max-width: 450px;
+    margin-bottom: 24px;
+}
+
+.hero__subtitle {
+    color: var(--color-secondary);
+    font-size: 16px;
+    line-height: 150%;
+    letter-spacing: 0.4px;
+    max-width: 550px;
+    margin-bottom: 32px;
+}
+
+/* SECTION */
+
+.section {
+    background-color: var(--color-bg-primary);
+}
+
+/* block modifier of section, we'll need it in future */
+.section_secondary {
+    background-color: var(--color-bg-secondary);
+}
+
+.section__inner {
+    padding: 90px 0;
+    max-width: 1080px;
+    margin: 0 auto;
+}
+
+.section__title {
+    max-width: 550px;
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 32px;
+    font-size: 36px;
+}
+
+.section__subtitle {
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+    color: var(--color-text-secondary);
+    font-size: 16px;
+    margin-bottom: 48px;
+}
+
+/* GRID */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 32px;
+}
+
+/* COURSE */
+
+/* whenever making a compononet, everything in it should
+always be 100% width etc., it is only when we take
+that component and place it somewhere that we define
+constraints for it size - not in component itself */
+
+.course {
+    width: 100%;
+    border-radius: 6px; /* visible only when adding box-shadow ofc, since the course color is same as parent color*/
+    padding: 20px; /* so that its child inside (figure, that is, image) has distance form border of card */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.course:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.course__figure {
+    height: 180px;
+    width: 100%;
+    border-radius: 6px; 
+    overflow: hidden; /* to apply border-radius, forbid image to overflow the card - will clip image */
+    margin-bottom: 24px; /* to distance the text below image a bit */
+}
+
+.course__image {
+    object-fit: cover; /* we want to fit image in, and for this to apply, always specify width and height 100%*/
+    width: 100%;
+    height: 100%;
+
+    /* this way grid knows how to resize the given image no matter how we resize the card / browser */
+}
+
+.course__title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.course__subtitle {
+    color: var(--color-text-secondary);
+    font-size: 16px;
+    line-height: 150%;
+    margin-bottom: 16px;
+}
+
+.course__time {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
