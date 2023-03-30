@@ -1,3 +1,145 @@
+/*
+Naming rules BEM:
+block-name__elem-name_mod-name_mod-val
+
+Names are written in lowercase Latin letters.
+Words are separated by a hyphen (-).
+The block name defines the namespace for its elements and modifiers.
+The element name is separated from the block name by a double underscore (__).
+The modifier name is separated from the block or element name by a single underscore (_).
+The modifier value is separated from the modifier name by a single underscore (_).
+For boolean modifiers, the value is not included in the name.
+Important: Elements of elements do not exist in the BEM methodology. The naming rules do not allow creating elements of elements, but you can nest elements inside each other in the DOM tree.
+
+Element name - example of element of block "menu": menu__item
+
+Important: Identical elements in the same block have the same names. For example, all menu items in the menu block are called menu__item.
+
+Block modifier name:
+menu_hidden
+menu_theme_islands
+
+HTML
+
+<div class="menu menu_hidden"> ... </div>
+<div class="menu menu_theme_islands"> ... </div>
+
+CSS
+
+.menu_hidden { display: none; }
+.menu_theme_islands { color: green; }
+
+Element modifier name
+
+menu__item_visible
+menu__item_type_radio
+
+HTML
+
+<div class="menu">
+    ...
+    <span class="menu__item menu__item_visible menu__item_type_radio"> ... </span>
+</div>
+
+CSS
+
+.menu__item_visible {}
+.menu__item_type_radio { color: blue; }
+
+
+
+Modifier
+
+An entity that defines the appearance, state, or behavior of a block or element.
+
+Features:
+
+    The modifier name describes its appearance ("What size?" or "Which theme?" and so on — size_s or theme_islands), its state ("How is it different from the others?" — disabled, focused, etc.) and its behavior ("How does it behave?" or "How does it respond to the user?" — such as directions_left-top).
+
+    The modifier name is separated from the block or element name by a single underscore (_).
+
+Types of modifiers
+Boolean
+
+    Used when only the presence or absence of the modifier is important, and its value is irrelevant. For example, disabled. If a Boolean modifier is present, its value is assumed to be true.
+
+    The structure of the modifier's full name follows the pattern:
+
+        block-name_modifier-name
+
+        block-name__element-name_modifier-name
+
+Example
+
+<!-- The `search-form` block has the `focused` Boolean modifier -->
+<form class="search-form search-form_focused">
+    <input class="search-form__input">
+
+    <!-- The `button` element has the `disabled` Boolean modifier -->
+    <button class="search-form__button search-form__button_disabled">Search</button>
+</form>
+
+Key-value
+
+    Used when the modifier value is important. For example, "a menu with the islands design theme": menu_theme_islands.
+
+    The structure of the modifier's full name follows the pattern:
+
+        block-name_modifier-name_modifier-value
+
+        block-name__element-name_modifier-name_modifier-value
+
+Example
+
+<!-- The `search-form` block has the `theme` modifier with the value `islands` -->
+<form class="search-form search-form_theme_islands">
+    <input class="search-form__input">
+
+    <!-- The `button` element has the `size` modifier with the value `m` -->
+    <button class="search-form__button search-form__button_size_m">Search</button>
+</form>
+
+<!-- You can't use two identical modifiers with different values simultaneously -->
+<form class="search-form
+             search-form_theme_islands
+             search-form_theme_lite">
+
+    <input class="search-form__input">
+
+    <button class="search-form__button
+                   search-form__button_size_s
+                   search-form__button_size_m">
+        Search
+    </button>
+</form>
+
+Guidelines for using modifiers
+A modifier can't be used alone
+
+From the BEM perspective, a modifier can't be used in isolation from the modified block or element. A modifier should change the appearance, behavior, or state of the entity, not replace it.
+
+Example
+
+<!--
+    Correct. The `search-form` block has the `theme` modifier with
+    the value `islands`
+-->
+<form class="search-form search-form_theme_islands">
+    <input class="search-form__input">
+
+    <button class="search-form__button">Search</button>
+</form>
+
+<!-- Incorrect. The modified class `search-form` is missing -->
+<form class="search-form_theme_islands">
+    <input class="search-form__input">
+
+    <button class="search-form__button">Search</button>
+</form>
+
+
+*/
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;400;500;600;700&display=swap');
 
 :root {
@@ -92,9 +234,14 @@ a {
 }
 
 /* how to handle a block we want to modify in BEM? 
-Add modifier (button_secondary class) and add it
+Create modifier (button_secondary class) and ADD it
 to the existing button class to that HTML element -
-class="button button_secondary" */
+class="button button_secondary" 
+
+Modifier naming convention - single underscore separates it from block name
+unlike element where double underscore separates it from block name
+
+Important: modifier can be added to both blocks and elements */
 .button_secondary {
     padding: 16px 20px;
 
@@ -149,7 +296,7 @@ class="button button_secondary" */
     /*if not using flex, this is another way to center vertically*/
     position: absolute;
     top: 50%; /* take half of parent and begin this element there*/
-    transform: translateY(-50%); /* and halve that to move it further upward */
+    transform: translateY(-50%); /* and halve the size of this element itself to move it further upward so it is perfectly in center vertically */
 }
 
 .hero__title {
@@ -209,8 +356,17 @@ class="button button_secondary" */
 
 .grid {
     display: grid;
+    /* Na predavanju: 
     grid-template-columns: repeat(3,1fr);
-    gap: 32px;
+    gap: 32px; */
+    
+    /* the magic of grid is repeat(auto-fit, minmax) - it allows automatic adjusting of the
+    number of the items in each row to width of browser without any media queries at all 
+    (if we left the above, the items in grid would stretch and widen instead but would always
+    remain 3 items in one row regardless of device size) */
+    --auto-grid-min-size: 16rem;
+    grid-template-columns: repeat(auto-fit, minmax(var(--auto-grid-min-size), 1fr));
+    grid-gap: 1rem;
 }
 
 /* COURSE */
