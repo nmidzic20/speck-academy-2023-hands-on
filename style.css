@@ -35,48 +35,69 @@ a {
     background-color: var(--color-bg-secondary);
 }
 
-.header__inner {
-    max-width: 1080px;
-    height: 80px;
-    margin: 0 auto;
-    /*
-        margin: 0 auto is to horizontally center inner inside header
-        it works only on elements whose dimensions are smaller than the 
-        entire browser width - had we not defined inner header's max-width,
-        it wouldn't have worked
-    */
-}
-
-.header__logo-link {
-    float: left;
-    margin-top: calc((80px - 24px) / 2);
-    /* 
-        with margin and calc - simplest way to center vertically without using flex etc.
-        80px - height of parent (header__inner)
-        24px - height of this element itself, logo-link
-        divide in half and we get the exact margin-top to center it vertically
-    */
-}
-
 /*path elements of svg element is the one that cointains fill color, so we need to access it*/
 .header__logo > path {
     fill: var(--color-primary);
 }
 
+.header__hamburger {
+    display: block;
+    width: 32px;
+    height: 32px;
+}
+
 .header__nav {
-    float: right;
-
+    display: none;
 }
 
-.header__link {
-    /*inside block elements, line-height will specify the height of line boxes and we set it to header's height, so that text is automatically centered vertically*/
-    line-height: 80px;
-    margin-right: 32px;
-    transition: color 0.3s ease-out;
+.header__inner {
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
 }
 
-.header__link:hover {
-    color: var(--color-primary)
+@media screen and (min-width: 768px) {
+    .header__inner {
+        padding: 0 32px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .header__inner {
+        /* We limited the width with padding on smaller screens, now on
+        desktop screens we need to constrain the width so that header__inner itself
+        is fixed at this width 930px for large screens, so that the content is not strecthed with
+        miles between the left and the right buttons/icons of header */
+        padding: 0;
+        max-width: 930px;
+        margin: 0 auto;
+    }
+
+    .header__hamburger {
+        display: none;
+    }
+    
+    .header__nav {
+        display: block;
+    } 
+
+    .header__link {
+        margin-right: 32px;
+        transition: color 0.3s ease-out;
+    }
+
+    .header__link:hover {
+        color: var(--color-primary)
+    }
+}
+
+@media screen and (min-width: 1300px) {
+    .header__inner {
+        max-width: 1280px;
+    }
+    
 }
 
 /* BUTTON */
@@ -92,9 +113,14 @@ a {
 }
 
 /* how to handle a block we want to modify in BEM? 
-Add modifier (button_secondary class) and add it
+Create modifier (button_secondary class) and ADD it
 to the existing button class to that HTML element -
-class="button button_secondary" */
+class="button button_secondary" 
+
+Modifier naming convention - single underscore separates it from block name
+unlike element where double underscore separates it from block name
+
+Important: modifier can be added to both blocks and elements */
 .button_secondary {
     padding: 16px 20px;
 
@@ -141,25 +167,52 @@ class="button button_secondary" */
 }
 
 .hero__content-inner {
-    max-width: 1080px;
-    margin: 0 auto;
+    padding: 64px 24px;
 }
 
 .hero__text-card {
     /*if not using flex, this is another way to center vertically*/
     position: absolute;
     top: 50%; /* take half of parent and begin this element there*/
-    transform: translateY(-50%); /* and halve that to move it further upward */
+    transform: translateY(-50%); /* and halve the size of this element itself to move it further upward so it is perfectly in center vertically */
 }
 
 .hero__title {
     color: var(--color-secondary);
-    font-size: 38px;
+    font-size: 28px;
     font-weight: 700;
     line-height: 130%;
     letter-spacing: 1px;
     max-width: 450px;
     margin-bottom: 24px;
+}
+
+@media screen and (min-width: 768px) {
+    .hero__content-inner {
+        padding: 72px 32px;
+    }
+
+    .hero__title {
+        font-size: 32px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .hero__content-inner {
+        padding: 90px 0;
+        max-width: 930px;
+        margin: 0 auto;
+    }
+
+    .hero__title {
+        font-size: 36px;
+    }
+}
+
+@media screen and (min-width: 1300px) {
+    .hero__content-inner {
+        max-width: 1080px;
+    }
 }
 
 .hero__subtitle {
@@ -183,9 +236,7 @@ class="button button_secondary" */
 }
 
 .section__inner {
-    padding: 90px 0;
-    max-width: 1080px;
-    margin: 0 auto;
+    padding: 64px 24px;
 }
 
 .section__title {
@@ -193,7 +244,35 @@ class="button button_secondary" */
     margin: 0 auto;
     text-align: center;
     margin-bottom: 32px;
-    font-size: 36px;
+    font-size: 28px;
+}
+
+@media screen and (min-width: 768px) {
+    .section__inner {
+        padding: 72px 32px;
+    }
+
+    .section__title {
+        font-size: 32px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .section__inner {
+        padding: 90px 0;
+        max-width: 930px;
+        margin: 0 auto;
+    }
+
+    .section__title {
+        font-size: 36px;
+    }
+}
+
+@media screen and (min-width: 1300px) {
+    .section__inner {
+        max-width: 1280px;
+    }
 }
 
 .section__subtitle {
@@ -209,8 +288,39 @@ class="button button_secondary" */
 
 .grid {
     display: grid;
+    /* Na predavanju: 
     grid-template-columns: repeat(3,1fr);
+    gap: 32px; */
+    
+    /* the magic of grid is repeat(auto-fit, minmax) - it allows automatic adjusting of the
+    number of the items in each row to width of browser without any media queries at all 
+    (if we left the above, the items in grid would stretch and widen instead but would always
+    remain 3 items in one row regardless of device size) 
+    --auto-grid-min-size: 16rem;
+    grid-template-columns: repeat(auto-fit, minmax(var(--auto-grid-min-size), 1fr));
+    grid-gap: 1rem;
+
+    Ali tu je verzija s predavanja (media query):
+    */
     gap: 32px;
+}
+
+@media screen and (min-width: 580px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media screen and (min-width: 1300px) {
+    .grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
 
 /* COURSE */
@@ -267,3 +377,54 @@ constraints for it size - not in component itself */
     color: var(--color-primary);
 }
 
+/* SINGLE COURSE */
+
+.single-course {
+
+}
+
+.single-course__figure {
+    width: 100%;
+    height: 220px;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 32px;
+}
+
+.single-course__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;    
+}
+
+.single-course__content {
+    font-size: 16px;
+    line-height: 150%;
+}
+
+@media screen and (min-width: 580px) {
+    .single-course__figure {
+        height: 300px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .single-course {
+        display: flex;
+    }
+
+    .single-course__figure {
+        height: 350px;
+        width: 350px;
+        flex-shrink: 0;
+        margin-right: 48px;
+    } 
+}
+
+@media screen and (min-width: 1300px) {
+    .single-course__figure {
+        height: 450px;
+        width: 500px;
+        margin-right: 90px;
+    }
+}
