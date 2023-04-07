@@ -25,24 +25,33 @@
                             fill="white"/>
                     </svg>
                 </a>
+                <svg class="header__hamburger" width="448" height="392" viewBox="0 0 448 392" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 72H432C440.837 72 448 64.837 448 56V16C448 7.163 440.837 0 432 0H16C7.163 0 0 7.163 0 16V56C0 64.837 7.163 72 16 72ZM16 232H432C440.837 232 448 224.837 448 216V176C448 167.163 440.837 160 432 160H16C7.163 160 0 167.163 0 176V216C0 224.837 7.163 232 16 232ZM16 392H432C440.837 392 448 384.837 448 376V336C448 327.163 440.837 320 432 320H16C7.163 320 0 327.163 0 336V376C0 384.837 7.163 392 16 392Z" fill="black"/>
+                </svg> 
                 <nav class="header__nav">
-                    <!--
-                        Why these classes? Because Home and Courses stylized the same, 
-                        while Register will be stylized as button (looks and acts different)
-
-                        Why 'button' and not 'header__button'? Because we use the same button 
-                        (style/behaviour - see screenshots of the page) inside Hero section,
-                        so since we want to reuse this button elsewhere outside of header, 
-                        we see it as Block for itself instead of another Element, since BEM says 
-                        we shouldn't use Elements of one Block inside another Block                        
                     
-                    -->
                     <a href="index.html" class="header__link">Home</a>
                     <a href="courses.html" class="header__link">Courses</a>
                     <a href="#" class="button">Register</a>
                 </nav>
             </div>
         </header>
-        
+        <section class="section">
+            <div class="section__inner">
+                <h1 class="section__title">Introduction</h1>
+
+                <article class="single-course">
+                    <figure class="single-course__figure">
+                        <img class="single-course__image" alt="Introduction" src="images/lecture-1.jpg">
+                    </figure>
+                    <p class="single-course__content">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus aliquam quam eligendi tempora fugiat iste consequatur magni fuga corrupti laborum cupiditate maiores, ipsa temporibus cumque nesciunt excepturi recusandae consequuntur impedit.
+                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aut est similique, consequatur nobis doloribus adipisci vitae repellat! Ut quibusdam iste dolores sint exercitationem! Impedit ipsum debitis aliquid aperiam praesentium nam.
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium nihil veniam, esse a odit eligendi vel iusto sit recusandae incidunt animi. Fuga, nisi nobis consectetur officia enim facilis odio qui.
+                    </p>
+                </article>
+
+            </div>
+        </section>
     </body>
 </html>
